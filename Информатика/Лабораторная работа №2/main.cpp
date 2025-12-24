@@ -1,4 +1,4 @@
-﻿#include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <functional> 
 #include <cmath> 
 #include <string>
@@ -45,17 +45,17 @@ int main() {
     coordinatesText.setFillColor(sf::Color::White);
     coordinatesText.setPosition(10, 10);
 
-    // Оси X и Y
+    // Оси X и Y - доходят до краев окна
     sf::VertexArray xAxis(sf::Lines, 2);
-    xAxis[0].position = sf::Vector2f(50, 300); // Начало оси X
+    xAxis[0].position = sf::Vector2f(0, 300); // Начало оси X - левый край окна
     xAxis[0].color = sf::Color::White; // Цвет оси
-    xAxis[1].position = sf::Vector2f(750, 300); // Конец оси X
+    xAxis[1].position = sf::Vector2f(800, 300); // Конец оси X - правый край окна
     xAxis[1].color = sf::Color::White;
 
     sf::VertexArray yAxis(sf::Lines, 2);
-    yAxis[0].position = sf::Vector2f(400, 50); // Начало оси Y
+    yAxis[0].position = sf::Vector2f(400, 0); // Начало оси Y - верхний край окна
     yAxis[0].color = sf::Color::White; // Цвет оси
-    yAxis[1].position = sf::Vector2f(400, 550); // Конец оси Y
+    yAxis[1].position = sf::Vector2f(400, 600); // Конец оси Y - нижний край окна
     yAxis[1].color = sf::Color::White;
 
     while (window.isOpen()) {
@@ -100,8 +100,8 @@ int main() {
                         // Решаем уравнение: x² - 2x - 6 = 2
                         // x² - 2x - 8 = 0
                         // Дискриминант: D = 4 + 32 = 36
-                        float intersect1 = (2 - 6) / 2;  // x = -2
-                        float intersect2 = (2 + 6) / 2;  // x = 4
+                        float intersect1 = (2 - 6) / 2; // x = -2
+                        float intersect2 = (2 + 6) / 2; // x = 4
 
                         // Определяем положение относительно прямой y = 2
                         bool aboveLine = mathY > lineY;
@@ -153,13 +153,15 @@ int main() {
         window.draw(xAxis);
         window.draw(yAxis);
 
-        // 5 _  Отрисовка графика y1 = x*x - 2*x - 6 
+        // 5 _ Отрисовка графика y1 = x*x - 2*x - 6 
         // Используем одинаковый масштаб по X и Y для правильного отображения
-        drawGraph(window, [](float x) { return x * x - 2 * x - 6; }, -10, 10, 30, 30, sf::Color::Blue);
+        float xMin = -400.0f / 30.0f;
+        float xMax = 400.0f / 30.0f; 
+        drawGraph(window, [](float x) { return x * x - 2 * x - 6; }, xMin, xMax, 30, 30, sf::Color::Blue);
 
-        // 5 _   Отрисовка графика y2 = 2 
+        // 5 _ Отрисовка графика y2 = 2 
         // Используем тот же масштаб по Y = 30
-        drawGraph(window, [](float x) { return 2; }, -10, 10, 30, 30, sf::Color::Red);
+        drawGraph(window, [](float x) { return 2; }, xMin, xMax, 30, 30, sf::Color::Red);
 
         // Отрисовка пользовательской точки, если она существует
         if (userPointExists) {
@@ -174,4 +176,3 @@ int main() {
     return 0;
 
 }
-
